@@ -1,5 +1,7 @@
 package com.manic.galaxy.application
 
+import com.manic.galaxy.domain.facility.FacilityFactory
+import com.manic.galaxy.domain.facility.FacilityRepository
 import com.manic.galaxy.domain.planet.Planet
 import com.manic.galaxy.domain.planet.PlanetRepository
 import com.manic.galaxy.domain.user.PasswordEncrypter
@@ -11,15 +13,20 @@ import java.util.*
 class UserService(
     private val userRepository: UserRepository,
     private val planetRepository: PlanetRepository,
-    private val passwordEncrypter: PasswordEncrypter
+    private val facilityRepository: FacilityRepository,
+    private val passwordEncrypter: PasswordEncrypter,
 ) {
 
     /**
      * @return a admin user
      */
-    fun createAdmin(email: String, password: String): User {
+    fun createAdmin(
+        email: String,
+        password: String,
+    ): User {
         val encryptPassword = passwordEncrypter.encrypt(password)
-        val user = UserFactory.newAdmin(email, encryptPassword)
+        val user = UserFactory.newAdmin(email,
+                                        encryptPassword)
         return userRepository.insert(user)
     }
 
@@ -32,11 +39,16 @@ class UserService(
      */
     fun joinGalaxy(
         userId: UUID,
-        galaxyId: UUID
+        galaxyId: UUID,
     ): Planet {
         val user = userRepository.get(userId)
         val planet = planetRepository.getUnowned(galaxyId)
+
+        val mine = FacilityFactory.newMine(planet.id)
+        val storage = FacilityFactory.newStorage(planet.id)
         planet.transferOwnershipTo(user)
+
+        facilityRepository.insert(mine, storage)
         return planetRepository.update(planet)
     }
 }
