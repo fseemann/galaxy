@@ -2,5 +2,5 @@ package com.manic.galaxy.domain.galaxy
 
 import com.manic.galaxy.domain.shared.EntityRepository
 
-interface GalaxyRepository: EntityRepository<Galaxy> {
+interface GalaxyRepository : EntityRepository<Galaxy> {
 }
