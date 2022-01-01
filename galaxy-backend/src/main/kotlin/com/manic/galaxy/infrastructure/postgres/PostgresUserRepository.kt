@@ -5,11 +5,11 @@ import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.statements.UpdateBuilder
 
 class PostgresUserRepository : PostgresEntityRepository<User, UsersTable>(UsersTable) {
-    override fun fromRow(row: ResultRow) = User(
-        row[UsersTable.id],
-        row[UsersTable.email],
-        row[UsersTable.password],
-        row[UsersTable.role],
+    override fun UsersTable.fromRow(row: ResultRow) = User(
+        row[id],
+        row[email],
+        row[password],
+        row[role],
     )
 
     override fun UsersTable.toRow(

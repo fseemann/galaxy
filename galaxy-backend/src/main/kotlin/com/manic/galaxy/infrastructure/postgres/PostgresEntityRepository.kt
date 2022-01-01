@@ -23,11 +23,11 @@ abstract class PostgresEntityRepository<T : Entity, J : EntityTable>(private val
     }
 
     override fun get(id: UUID): T {
-        return table.select { table.id eq id }.map { fromRow(it) }.firstOrNull()
+        return table.select { table.id eq id }.map { table.fromRow(it) }.firstOrNull()
             ?: throw BusinessException("entity.idUnused")
     }
 
-    protected abstract fun fromRow(row: ResultRow): T
+    protected abstract fun J.fromRow(row: ResultRow): T
 
     protected abstract fun J.toRow(
         statement: UpdateBuilder<Number>,
