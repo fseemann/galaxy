@@ -1,10 +1,11 @@
 package com.manic.galaxy.application
 
+import com.manic.galaxy.domain.facility.Facility
 import com.manic.galaxy.domain.facility.FacilityRepository
 import java.util.*
 
 class FacilityService(
-    private val facilityRepository: FacilityRepository
+    private val facilityRepository: FacilityRepository,
 ) {
 
     /**
@@ -17,5 +18,9 @@ class FacilityService(
         val mine = facilityRepository.findMine(storage.planetId)
         storage.update(mine)
         facilityRepository.update(storage)
+    }
+
+    fun listFacilities(planetId: UUID): List<Facility> {
+        return facilityRepository.list(planetId)
     }
 }
