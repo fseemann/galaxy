@@ -1,4 +1,4 @@
-package com.manic.galaxy.ktor.plugins
+package com.manic.galaxy.infrastructure.ktor.plugins
 
 import io.ktor.application.*
 import io.ktor.features.*
