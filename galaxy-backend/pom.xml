@@ -17,6 +17,7 @@
         <kotlin.version>1.6.10</kotlin.version>
         <koin.version>3.1.4</koin.version>
         <bcrypt.version>0.9.0</bcrypt.version>
+        <exposed.version>0.37.3</exposed.version>
     </properties>
     <dependencies>
         <dependency>
@@ -90,6 +91,21 @@
             <groupId>at.favre.lib</groupId>
             <artifactId>bcrypt</artifactId>
             <version>${bcrypt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.exposed</groupId>
+            <artifactId>exposed-core</artifactId>
+            <version>${exposed.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.exposed</groupId>
+            <artifactId>exposed-jdbc</artifactId>
+            <version>${exposed.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.exposed</groupId>
+            <artifactId>exposed-java-time</artifactId>
+            <version>${exposed.version}</version>
         </dependency>
     </dependencies>
     <build>
