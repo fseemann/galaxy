@@ -22,7 +22,7 @@ class Storage(
                 if (mine.createdAt.isAfter(lastUpdatedAt)) mine.createdAt else lastUpdatedAt,
                 updatedAt
             )
-            val minedMinerals = passedTimeSinceLastUpdate.toMinutes().toInt()
+            val minedMinerals = mine.mineralsPerMinute * passedTimeSinceLastUpdate.toMinutes().toInt()
             minerals = (minerals + minedMinerals).coerceAtMost(mineralsCapacity)
         }
 

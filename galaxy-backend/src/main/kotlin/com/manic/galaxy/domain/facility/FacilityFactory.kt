@@ -8,7 +8,8 @@ object FacilityFactory {
         return Mine(
             UUID.randomUUID(),
             planetId,
-            GalaxyTime.now()
+            GalaxyTime.now(),
+            1
         )
     }
 

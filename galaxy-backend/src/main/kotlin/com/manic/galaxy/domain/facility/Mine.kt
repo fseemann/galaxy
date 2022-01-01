@@ -6,5 +6,6 @@ import java.util.*
 class Mine(
     override val id: UUID,
     override val planetId: UUID,
-    override val createdAt: Instant
+    override val createdAt: Instant,
+    var mineralsPerMinute: Int,
 ) : Facility
