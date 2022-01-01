@@ -15,6 +15,7 @@
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <main.class>io.ktor.server.netty.EngineMain</main.class>
         <kotlin.version>1.6.10</kotlin.version>
+        <koin.version>3.1.4</koin.version>
     </properties>
     <dependencies>
         <dependency>
@@ -62,6 +63,27 @@
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib-jdk8</artifactId>
             <version>${kotlin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.insert-koin</groupId>
+            <artifactId>koin-core</artifactId>
+            <version>${koin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.insert-koin</groupId>
+            <artifactId>koin-test</artifactId>
+            <version>${koin.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.insert-koin</groupId>
+            <artifactId>koin-ktor</artifactId>
+            <version>${koin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.insert-koin</groupId>
+            <artifactId>koin-logger-slf4j</artifactId>
+            <version>${koin.version}</version>
         </dependency>
     </dependencies>
     <build>
