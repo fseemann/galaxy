@@ -16,6 +16,7 @@
         <main.class>io.ktor.server.netty.EngineMain</main.class>
         <kotlin.version>1.6.10</kotlin.version>
         <koin.version>3.1.4</koin.version>
+        <bcrypt.version>0.9.0</bcrypt.version>
     </properties>
     <dependencies>
         <dependency>
@@ -84,6 +85,11 @@
             <groupId>io.insert-koin</groupId>
             <artifactId>koin-logger-slf4j</artifactId>
             <version>${koin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>at.favre.lib</groupId>
+            <artifactId>bcrypt</artifactId>
+            <version>${bcrypt.version}</version>
         </dependency>
     </dependencies>
     <build>
