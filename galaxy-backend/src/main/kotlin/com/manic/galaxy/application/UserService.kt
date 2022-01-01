@@ -2,13 +2,26 @@ package com.manic.galaxy.application
 
 import com.manic.galaxy.domain.planet.Planet
 import com.manic.galaxy.domain.planet.PlanetRepository
+import com.manic.galaxy.domain.user.PasswordEncrypter
+import com.manic.galaxy.domain.user.User
+import com.manic.galaxy.domain.user.UserFactory
 import com.manic.galaxy.domain.user.UserRepository
 import java.util.*
 
 class UserService(
     private val userRepository: UserRepository,
-    private val planetRepository: PlanetRepository
+    private val planetRepository: PlanetRepository,
+    private val passwordEncrypter: PasswordEncrypter
 ) {
+
+    /**
+     * @return a admin user
+     */
+    fun createAdmin(email: String, password: String): User {
+        val encryptPassword = passwordEncrypter.encrypt(password)
+        val user = UserFactory.newAdmin(email, encryptPassword)
+        return userRepository.insert(user)
+    }
 
     /**
      * Assigns an open planet to the user.
