@@ -1,6 +1,6 @@
-package com.manic.infrastructure.ktor
+package com.manic.galaxy.ktor
 
-import com.manic.infrastructure.ktor.plugins.*
+import com.manic.galaxy.ktor.plugins.*
 import io.ktor.application.*
 
 @Suppress("unused") // application.conf references the main function. This annotation prevents the IDE from marking it as unused.
