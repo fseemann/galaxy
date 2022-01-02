@@ -14,7 +14,7 @@ abstract class PostgresEntityRepository<T : Entity, J : EntityTable>(private val
     }
 
     override fun update(entity: T): T {
-        table.update { toRow(it, entity) }
+        table.update({ table.id eq entity.id }) { toRow(it, entity) }
         return entity
     }
 

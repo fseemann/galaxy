@@ -43,16 +43,15 @@ class PostgresFacilityRepository : FacilityRepository {
     }
 
     override fun update(entity: Facility): Facility {
-        FacilitiesTable.update { toRow(it, entity) }
+        FacilitiesTable.update({ FacilitiesTable.id eq entity.id }) { toRow(it, entity) }
         when (entity) {
-            is Storage -> StoragesTable.update { toStorageRow(it, entity) }
-            is Mine -> MinesTable.update { toMineRow(it, entity) }
+            is Storage -> StoragesTable.update({ StoragesTable.id eq entity.id }) { toStorageRow(it, entity) }
+            is Mine -> MinesTable.update({ MinesTable.id eq entity.id }) { toMineRow(it, entity) }
         }
         return entity
     }
 
     override fun delete(entity: Facility) {
-        FacilitiesTable.deleteWhere { FacilitiesTable.id eq entity.id }
         when (entity) {
             is Storage -> StoragesTable.deleteWhere { StoragesTable.id eq entity.id }
             is Mine -> MinesTable.deleteWhere { MinesTable.id eq entity.id }

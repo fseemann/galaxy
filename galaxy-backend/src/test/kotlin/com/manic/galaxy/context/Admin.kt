@@ -6,7 +6,7 @@ import com.manic.galaxy.domain.user.User
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.core.component.inject
 
-class Admin() : Empty() {
+open class Admin() : Empty() {
     val admin: User = run {
         val userService by inject<UserService>()
         transaction {

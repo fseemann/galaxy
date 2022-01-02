@@ -19,7 +19,7 @@ abstract class IntegrationTest : KoinComponent {
     @Before
     fun cleanDatabase() {
         transaction {
-            tables.forEach { it.deleteAll() }
+            tables.filterNot { it is FacilitiesTable }.forEach { it.deleteAll() }
         }
     }
 
