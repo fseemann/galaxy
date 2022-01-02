@@ -5,9 +5,9 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class Empty() : KoinComponent {
+open class Empty() : KoinComponent {
     fun `when the system creates an admin`(
-        email: String = "admin@manic.com",
+        email: String = "admin@galaxy.com",
         password: String = "admin",
     ) {
         val userService by inject<UserService>()
@@ -28,3 +28,4 @@ class Empty() : KoinComponent {
         }
     }
 }
+
