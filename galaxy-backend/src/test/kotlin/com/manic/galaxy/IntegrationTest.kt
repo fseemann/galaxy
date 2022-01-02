@@ -9,6 +9,7 @@ import org.koin.core.Koin
 import org.koin.core.component.KoinComponent
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
+import org.slf4j.LoggerFactory
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.utility.DockerImageName
 
@@ -23,10 +24,14 @@ abstract class IntegrationTest : KoinComponent {
                 .withEnv("POSTGRES_DB", "galaxy")
                 .withExposedPorts(5432)
             postgres.start()
+            Runtime.getRuntime().addShutdownHook(Thread {
+                val logger = LoggerFactory.getLogger("Shutdown")
+                logger.info("Stopping postgres.")
+                postgres.stop()
+            })
 
             val host = postgres.host
             val port = postgres.firstMappedPort
-
             Database.connect("jdbc:postgresql://${host}:${port}/galaxy", driver = "org.postgresql.Driver",
                              user = "postgres", password = "postgres")
 
