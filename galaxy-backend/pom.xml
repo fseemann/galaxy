@@ -18,6 +18,8 @@
         <koin.version>3.1.4</koin.version>
         <bcrypt.version>0.9.0</bcrypt.version>
         <exposed.version>0.37.3</exposed.version>
+        <testcontainers.version>1.16.2</testcontainers.version>
+        <postgresql.version>42.3.1</postgresql.version>
     </properties>
     <dependencies>
         <dependency>
@@ -73,12 +75,6 @@
         </dependency>
         <dependency>
             <groupId>io.insert-koin</groupId>
-            <artifactId>koin-test</artifactId>
-            <version>${koin.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.insert-koin</groupId>
             <artifactId>koin-ktor</artifactId>
             <version>${koin.version}</version>
         </dependency>
@@ -106,6 +102,17 @@
             <groupId>org.jetbrains.exposed</groupId>
             <artifactId>exposed-java-time</artifactId>
             <version>${exposed.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
         </dependency>
     </dependencies>
     <build>
