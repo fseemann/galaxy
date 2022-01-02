@@ -3,5 +3,7 @@ package com.manic.galaxy.domain.shared
 import java.time.Instant
 
 object GalaxyTime {
-    fun now() = Instant.now()
+    var time: Instant? = null
+
+    fun now(): Instant = time ?: Instant.now()
 }

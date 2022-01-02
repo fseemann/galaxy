@@ -5,20 +5,28 @@ import com.manic.galaxy.domain.facility.FacilityRepository
 import com.manic.galaxy.domain.facility.Mine
 import com.manic.galaxy.domain.facility.Storage
 import com.manic.galaxy.domain.shared.BusinessException
+import com.manic.galaxy.domain.shared.Invariants
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.statements.UpdateBuilder
 import java.util.*
 
 class PostgresFacilityRepository : FacilityRepository {
-    override fun getStorage(id: UUID): Storage {
-        return (StoragesTable innerJoin FacilitiesTable).select { StoragesTable.id eq FacilitiesTable.id }
-            .map { fromStorageRow(it) }
+    override fun getStorage(planetId: UUID): Storage {
+        val row = FacilitiesTable
+            .select { FacilitiesTable.planetId eq planetId and (FacilitiesTable._type eq "STORAGE") }
             .firstOrNull()
             ?: throw BusinessException("entity.idUnused")
+        val storage = StoragesTable.select { StoragesTable.id eq row[FacilitiesTable.id] }
+            .map { fromStorageRow(row, it) }
+            .firstOrNull()
+        Invariants.require(storage != null) { "planet.hasNoStorage" }
+        return storage!!
     }
 
     override fun findMine(planetId: UUID): Mine? {
-        val row = FacilitiesTable.select { FacilitiesTable.planetId eq planetId }.firstOrNull()
+        val row = FacilitiesTable
+            .select { FacilitiesTable.planetId eq planetId and (FacilitiesTable._type eq "MINE") }
+            .firstOrNull()
             ?: throw BusinessException("entity.idUnused")
         return MinesTable.select { MinesTable.id eq row[FacilitiesTable.id] }.map { fromMineRow(row, it) }.firstOrNull()
     }

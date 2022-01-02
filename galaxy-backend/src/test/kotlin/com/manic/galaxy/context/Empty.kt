@@ -1,9 +1,11 @@
 package com.manic.galaxy.context
 
 import com.manic.galaxy.application.UserService
+import com.manic.galaxy.domain.shared.GalaxyTime
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import java.time.Duration
 
 open class Empty() : KoinComponent {
     fun `when the system creates an admin`(
@@ -26,6 +28,10 @@ open class Empty() : KoinComponent {
         transaction {
             userService.signIn(email, password)
         }
+    }
+
+    fun `when time passes`(duration: Duration) {
+        GalaxyTime.time = GalaxyTime.now().plus(duration)
     }
 }
 

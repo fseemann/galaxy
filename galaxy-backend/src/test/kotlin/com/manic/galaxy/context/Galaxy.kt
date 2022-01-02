@@ -10,7 +10,7 @@ import java.util.*
 import kotlin.reflect.KClass
 import kotlin.test.assertEquals
 
-class Galaxy : Admin() {
+open class Galaxy : Admin() {
     val galaxy = run {
         val galaxyService by inject<GalaxyService>()
 

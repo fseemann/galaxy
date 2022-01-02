@@ -1,5 +1,6 @@
 package com.manic.galaxy
 
+import com.manic.galaxy.domain.shared.GalaxyTime
 import com.manic.galaxy.infrastructure.koin.ModuleFactory
 import com.manic.galaxy.infrastructure.postgres.*
 import org.jetbrains.exposed.sql.Database
@@ -21,6 +22,11 @@ abstract class IntegrationTest : KoinComponent {
         transaction {
             tables.filterNot { it is FacilitiesTable }.forEach { it.deleteAll() }
         }
+    }
+
+    @Before
+    fun resetTime() {
+        GalaxyTime.time = null
     }
 
     companion object {
