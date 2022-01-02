@@ -30,6 +30,15 @@ class UserService(
         return userRepository.insert(user)
     }
 
+    fun signIn(
+        email: String,
+        password: String,
+    ): User {
+        val user = userRepository.getByEmail(email)
+        passwordEncrypter.validate(password, user.password)
+        return user
+    }
+
     /**
      * Assigns an open planet to the user.
      *

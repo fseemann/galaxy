@@ -13,6 +13,12 @@ class PostgresUserRepository : PostgresEntityRepository<User, UsersTable>(UsersT
         Invariants.require(count == 0L) { "user.emailTaken" }
     }
 
+    override fun getByEmail(email: String): User {
+        val user = UsersTable.select { UsersTable.email eq email }.map { UsersTable.fromRow(it) }.firstOrNull()
+        Invariants.require(user != null) { "user.emailNotTaken" }
+        return user!!
+    }
+
     override fun UsersTable.fromRow(row: ResultRow) = User(
         row[id],
         row[email],
