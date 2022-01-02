@@ -24,6 +24,7 @@ class UserService(
         email: String,
         password: String,
     ): User {
+        userRepository.requireUnique(email)
         val encryptPassword = passwordEncrypter.encrypt(password)
         val user = UserFactory.newAdmin(email, encryptPassword)
         return userRepository.insert(user)

@@ -1,11 +1,9 @@
 package com.manic.galaxy
 
-import org.koin.core.component.KoinComponent
+import com.manic.galaxy.context.Empty
 
-class Nothing() : KoinComponent
-
-fun given(test: Nothing.() -> Unit) {
-    given(::Nothing, test)
+fun given(test: Empty.() -> Unit) {
+    given(::Empty, test)
 }
 
 fun <T> given(

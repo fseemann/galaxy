@@ -4,8 +4,9 @@ import com.manic.galaxy.infrastructure.koin.ModuleFactory
 import com.manic.galaxy.infrastructure.postgres.*
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.deleteAll
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.koin.core.Koin
+import org.junit.Before
 import org.koin.core.component.KoinComponent
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
@@ -15,10 +16,21 @@ import org.testcontainers.utility.DockerImageName
 
 abstract class IntegrationTest : KoinComponent {
 
+    @Before
+    fun cleanDatabase() {
+        transaction {
+            tables.forEach { it.deleteAll() }
+        }
+    }
+
     companion object {
-        val koin: Koin
+        val tables = arrayOf(UsersTable, StoragesTable, FacilitiesTable, GalaxiesTable, MinesTable, PlanetsTable)
+        private val initialized: Boolean
 
         init {
+            checkInitialized()
+            initialized = true
+
             val postgres = GenericContainer(DockerImageName.parse("postgres:14.1"))
                 .withEnv("POSTGRES_PASSWORD", "postgres")
                 .withEnv("POSTGRES_DB", "galaxy")
@@ -36,13 +48,20 @@ abstract class IntegrationTest : KoinComponent {
                              user = "postgres", password = "postgres")
 
             transaction {
-                SchemaUtils.create(UsersTable, StoragesTable, FacilitiesTable, GalaxiesTable, MinesTable, PlanetsTable)
+                SchemaUtils.create(tables = tables, inBatch = true)
             }
 
-            koin = startKoin {
+            startKoin {
+                // Koin is not compatible with kotlin 1.6.10, it logs time in info mode which causes an error
                 printLogger(Level.ERROR)
                 modules(ModuleFactory.new())
-            }.koin
+            }
+        }
+
+        private fun checkInitialized() {
+            if (initialized) {
+                return
+            }
         }
     }
 }
