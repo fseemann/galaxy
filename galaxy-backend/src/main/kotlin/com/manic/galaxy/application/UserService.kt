@@ -61,4 +61,11 @@ class UserService(
         facilityRepository.insert(mine, storage)
         return planetRepository.update(planet)
     }
+
+    fun listPlanets(
+        userId: UUID,
+        galaxyId: UUID,
+    ): List<Planet> {
+        return planetRepository.list(galaxyId, userId)
+    }
 }

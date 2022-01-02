@@ -7,4 +7,8 @@ interface PlanetRepository : EntityRepository<Planet> {
     fun insert(planets: List<Planet>)
     fun getUnowned(galaxyId: UUID): Planet
     fun requireNotOwner(userId: UUID)
+    fun list(
+        galaxyId: UUID,
+        userId: UUID,
+    ): List<Planet>
 }

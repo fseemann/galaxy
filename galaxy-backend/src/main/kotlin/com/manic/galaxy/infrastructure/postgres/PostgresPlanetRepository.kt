@@ -30,6 +30,14 @@ class PostgresPlanetRepository : PostgresEntityRepository<Planet, PlanetsTable>(
         Invariants.require(count == 0L) { "user.alreadyJoinedGalaxy" }
     }
 
+    override fun list(
+        galaxyId: UUID,
+        userId: UUID,
+    ): List<Planet> {
+        return PlanetsTable.select { PlanetsTable.ownerId eq userId and (PlanetsTable.galaxyId eq galaxyId) }
+            .map { PlanetsTable.fromRow(it) }.toList()
+    }
+
     override fun PlanetsTable.fromRow(row: ResultRow): Planet {
         return Planet(
             row[id],

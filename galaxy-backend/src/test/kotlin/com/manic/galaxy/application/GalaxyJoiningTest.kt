@@ -2,6 +2,8 @@ package com.manic.galaxy.application
 
 import com.manic.galaxy.IntegrationTest
 import com.manic.galaxy.context.Galaxy
+import com.manic.galaxy.domain.facility.Mine
+import com.manic.galaxy.domain.facility.Storage
 import com.manic.galaxy.domain.shared.BusinessException
 import com.manic.galaxy.given
 import org.junit.Test
@@ -19,6 +21,17 @@ class GalaxyJoiningTest : IntegrationTest() {
         given(::Galaxy) {
             `when a user joins the galaxy`(admin.id)
             `when a user joins the galaxy`(admin.id)
+        }
+    }
+
+    @Test
+    fun `joining a galaxy should give the player a planet with facilities`() {
+        given(::Galaxy) {
+            `when a user joins the galaxy`(admin.id)
+            `then a user should own a single planet with facilities`(
+                admin.id,
+                listOf(Storage::class, Mine::class)
+            )
         }
     }
 }
