@@ -50,6 +50,7 @@ class UserService(
         userId: UUID,
         galaxyId: UUID,
     ): Planet {
+        planetRepository.requireNotOwner(userId)
         val user = userRepository.get(userId)
         val planet = planetRepository.getUnowned(galaxyId)
 
