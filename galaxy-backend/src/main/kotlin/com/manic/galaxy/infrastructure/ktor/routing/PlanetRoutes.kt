@@ -1,4 +1,4 @@
-package com.manic.galaxy.infrastructure.ktor.routes
+package com.manic.galaxy.infrastructure.ktor.routing
 
 import com.manic.galaxy.application.FacilityService
 import io.ktor.application.*

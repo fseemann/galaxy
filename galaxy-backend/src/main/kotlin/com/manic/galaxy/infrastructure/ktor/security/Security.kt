@@ -1,11 +1,12 @@
 package com.manic.galaxy.infrastructure.ktor.plugins
 
 import com.manic.galaxy.application.UserService
+import com.manic.galaxy.infrastructure.ktor.security.UserPrincipal
+import com.manic.galaxy.infrastructure.ktor.security.UserSession
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.sessions.*
 import org.koin.ktor.ext.inject
-import java.util.*
 import kotlin.collections.set
 
 fun Application.configureSecurity() {
@@ -36,6 +37,3 @@ fun Application.configureSecurity() {
     }
 }
 
-data class UserSession(val userId: UUID)
-data class UserPrincipal(val id: UUID) : Principal
-data class FormPrincipal(val userId: UUID) : Principal

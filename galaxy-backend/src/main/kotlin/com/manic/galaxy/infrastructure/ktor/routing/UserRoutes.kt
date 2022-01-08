@@ -1,7 +1,7 @@
-package com.manic.galaxy.infrastructure.ktor.routes
+package com.manic.galaxy.infrastructure.ktor.routing
 
-import com.manic.galaxy.infrastructure.ktor.plugins.FormPrincipal
-import com.manic.galaxy.infrastructure.ktor.plugins.UserSession
+import com.manic.galaxy.infrastructure.ktor.security.FormPrincipal
+import com.manic.galaxy.infrastructure.ktor.security.UserSession
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.http.*

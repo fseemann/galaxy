@@ -1,8 +1,8 @@
-package com.manic.galaxy.infrastructure.ktor.routes
+package com.manic.galaxy.infrastructure.ktor.routing
 
 import com.manic.galaxy.application.GalaxyService
 import com.manic.galaxy.application.PlanetService
-import com.manic.galaxy.infrastructure.ktor.plugins.UserPrincipal
+import com.manic.galaxy.infrastructure.ktor.security.UserPrincipal
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.request.*
