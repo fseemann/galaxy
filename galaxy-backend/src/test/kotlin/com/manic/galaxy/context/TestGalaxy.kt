@@ -1,7 +1,7 @@
 package com.manic.galaxy.context
 
 import com.manic.galaxy.application.FacilityService
-import com.manic.galaxy.application.UserService
+import com.manic.galaxy.application.GalaxyService
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.core.component.inject
 import java.util.*
@@ -9,10 +9,10 @@ import kotlin.test.assertEquals
 
 class TestGalaxy : Galaxy() {
     val planetOwnedByAdmin = run {
-        val userService by inject<UserService>()
+        val galaxyService by inject<GalaxyService>()
 
         transaction {
-            userService.joinGalaxy(admin.id, galaxy.id)
+            galaxyService.joinGalaxy(admin.id, galaxy.id)
         }
     }
 

@@ -2,7 +2,7 @@ package com.manic.galaxy.context
 
 import com.manic.galaxy.application.FacilityService
 import com.manic.galaxy.application.GalaxyService
-import com.manic.galaxy.application.UserService
+import com.manic.galaxy.application.PlanetService
 import com.manic.galaxy.domain.facility.Facility
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.core.component.inject
@@ -20,10 +20,10 @@ open class Galaxy : Admin() {
     }
 
     fun `when a user joins the galaxy`(userId: UUID) {
-        val userService by inject<UserService>()
+        val galaxyService by inject<GalaxyService>()
 
         transaction {
-            userService.joinGalaxy(userId, galaxy.id)
+            galaxyService.joinGalaxy(userId, galaxy.id)
         }
     }
 
@@ -32,10 +32,10 @@ open class Galaxy : Admin() {
         facilityTypes: List<KClass<out Facility>>,
     ) {
         val facilityService by inject<FacilityService>()
-        val userService by inject<UserService>()
+        val planetService by inject<PlanetService>()
 
         val facilities = transaction {
-            val planet = userService.listPlanets(userId, galaxy.id).first()
+            val planet = planetService.listPlanets(userId, galaxy.id).first()
             facilityService.listFacilities(planet.id)
         }
 

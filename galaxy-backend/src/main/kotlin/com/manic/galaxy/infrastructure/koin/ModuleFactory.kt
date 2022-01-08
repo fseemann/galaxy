@@ -25,8 +25,8 @@ object ModuleFactory {
             single<FacilityRepository> { PostgresFacilityRepository() }
             single<PasswordEncrypter> { BcrycptPasswordEncrypter() }
             single { FacilityService(get()) }
-            single { GalaxyService(get(), get(), get()) }
-            single { UserService(get(), get(), get(), get()) }
+            single { GalaxyService(get(), get(), get(), get()) }
+            single { UserService(get(), get()) }
         }
     }
 }
