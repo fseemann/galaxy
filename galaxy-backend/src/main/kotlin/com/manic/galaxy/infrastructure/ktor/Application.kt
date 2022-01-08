@@ -7,9 +7,9 @@ import io.ktor.application.*
 @Suppress("unused")
 fun Application.module() {
     configureDependencyInjection()
-    configureRouting()
     configureSecurity()
     configureHTTP()
     configureMonitoring()
     configureSerialization()
+    configureRouting()
 }
