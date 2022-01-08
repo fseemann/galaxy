@@ -38,6 +38,10 @@ class GalaxyService(
         return galaxy
     }
 
+    fun listGalaxies(): List<Galaxy> {
+        return galaxyRepository.list()
+    }
+
     /**
      * Assigns an open planet to the user.
      *

@@ -5,6 +5,7 @@ import io.ktor.auth.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.sessions.*
+import java.util.*
 
 fun Application.configureSecurity() {
 
@@ -13,7 +14,7 @@ fun Application.configureSecurity() {
             realm = "Ktor Server"
             validate { credentials ->
                 if (credentials.name == credentials.password) {
-                    UserIdPrincipal(credentials.name)
+                    UserPrincipal(UUID.randomUUID())
                 } else {
                     null
                 }
@@ -55,3 +56,5 @@ fun Application.configureSecurity() {
         }
     }
 }
+
+data class UserPrincipal(val id: UUID) : Principal
