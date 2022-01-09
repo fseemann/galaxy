@@ -1,10 +1,9 @@
 package com.manic.galaxy
 
 import com.manic.galaxy.domain.shared.GalaxyTime
+import com.manic.galaxy.infrastructure.exposed.DatabaseFactory
 import com.manic.galaxy.infrastructure.koin.ModuleFactory
-import com.manic.galaxy.infrastructure.postgres.*
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.SchemaUtils
+import com.manic.galaxy.infrastructure.postgres.FacilitiesTable
 import org.jetbrains.exposed.sql.deleteAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Before
@@ -20,7 +19,7 @@ abstract class IntegrationTest : KoinComponent {
     @Before
     fun cleanDatabase() {
         transaction {
-            tables.filterNot { it is FacilitiesTable }.forEach { it.deleteAll() }
+            DatabaseFactory.tables.filterNot { it is FacilitiesTable }.forEach { it.deleteAll() }
         }
     }
 
@@ -30,7 +29,6 @@ abstract class IntegrationTest : KoinComponent {
     }
 
     companion object {
-        val tables = arrayOf(UsersTable, StoragesTable, FacilitiesTable, GalaxiesTable, MinesTable, PlanetsTable)
         private val initialized: Boolean
 
         init {
@@ -50,12 +48,7 @@ abstract class IntegrationTest : KoinComponent {
 
             val host = postgres.host
             val port = postgres.firstMappedPort
-            Database.connect("jdbc:postgresql://${host}:${port}/galaxy", driver = "org.postgresql.Driver",
-                             user = "postgres", password = "postgres")
-
-            transaction {
-                SchemaUtils.create(tables = tables, inBatch = true)
-            }
+            DatabaseFactory.new(host, port, "postgres", "postgres", "galaxy")
 
             startKoin {
                 // Koin is not compatible with kotlin 1.6.10, it logs time in info mode which causes an error

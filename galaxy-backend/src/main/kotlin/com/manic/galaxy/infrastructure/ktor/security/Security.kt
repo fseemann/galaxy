@@ -1,8 +1,6 @@
-package com.manic.galaxy.infrastructure.ktor.plugins
+package com.manic.galaxy.infrastructure.ktor.security
 
 import com.manic.galaxy.application.UserService
-import com.manic.galaxy.infrastructure.ktor.security.UserPrincipal
-import com.manic.galaxy.infrastructure.ktor.security.UserSession
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.sessions.*

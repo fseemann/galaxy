@@ -2,6 +2,7 @@ package com.manic.galaxy.infrastructure.koin
 
 import com.manic.galaxy.application.FacilityService
 import com.manic.galaxy.application.GalaxyService
+import com.manic.galaxy.application.PlanetService
 import com.manic.galaxy.application.UserService
 import com.manic.galaxy.domain.facility.FacilityRepository
 import com.manic.galaxy.domain.galaxy.GalaxyRepository
@@ -18,7 +19,7 @@ import org.koin.dsl.module
 
 object ModuleFactory {
     fun new(): Module {
-        return module {
+        return module(createdAtStart = true) {
             single<UserRepository> { PostgresUserRepository() }
             single<GalaxyRepository> { PostgresGalaxyRepository() }
             single<PlanetRepository> { PostgresPlanetRepository() }
@@ -27,6 +28,7 @@ object ModuleFactory {
             single { FacilityService(get()) }
             single { GalaxyService(get(), get(), get(), get()) }
             single { UserService(get(), get()) }
+            single { PlanetService(get()) }
         }
     }
 }
