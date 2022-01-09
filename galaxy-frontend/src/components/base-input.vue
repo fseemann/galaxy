@@ -1,5 +1,5 @@
 <template>
-  <input v-model="modelValue" @input="emitInput">
+  <input class="border py-1.5 px-3" v-model="modelValue" @input="emitInput">
 </template>
 
 <script setup>

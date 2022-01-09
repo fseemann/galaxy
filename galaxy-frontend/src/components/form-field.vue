@@ -1,8 +1,8 @@
 <template>
-<div>
-  <label :for="inputId">{{label}}</label>
+<div class="flex flex-col">
+  <label class="font-bold" :for="inputId">{{label}}</label>
   <slot :id="inputId" v-bind="{ 'aria-describedby': descriptionId}"/>
-  <span :id="descriptionId">{{description}}</span>
+  <span class="text-sm" :id="descriptionId">{{description}}</span>
 </div>
 </template>
 
