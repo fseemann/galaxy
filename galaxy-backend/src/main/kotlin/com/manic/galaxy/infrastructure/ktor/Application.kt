@@ -1,9 +1,11 @@
 package com.manic.galaxy.infrastructure.ktor
 
+import com.manic.galaxy.application.UserService
 import com.manic.galaxy.infrastructure.ktor.plugins.*
 import com.manic.galaxy.infrastructure.ktor.routing.configureRouting
 import com.manic.galaxy.infrastructure.ktor.security.configureSecurity
 import io.ktor.application.*
+import org.koin.ktor.ext.inject
 
 @Suppress("unused")
 fun Application.module() {
@@ -14,4 +16,9 @@ fun Application.module() {
     configureMonitoring()
     configureSerialization()
     configureRouting()
+
+    val userService by inject<UserService>()
+    kotlin.runCatching {
+        userService.createAdmin("admin@galaxy.com", "admin")
+    }
 }
