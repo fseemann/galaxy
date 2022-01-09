@@ -31,10 +31,7 @@ class Transactions(private val configuration: Configuration) {
             val configuration = Configuration().apply(configure)
             val transactions = Transactions(configuration)
 
-            pipeline.receivePipeline.insertPhaseAfter(ApplicationCallPipeline.Features,
-                                                      TransactionsPipeline.StartTransaction)
-
-            pipeline.intercept(TransactionsPipeline.StartTransaction) {
+            pipeline.intercept(ApplicationCallPipeline.Features) {
                 if (!transactions.filter(call)) {
                     return@intercept
                 }
