@@ -1,7 +1,7 @@
 <template>
 <div>
   <h2>Login</h2>
-  <form>
+  <form method="post" action="/api/users/login">
     <form-field label="Username" description="Enter your email." v-slot="props">
       <input v-bind="props" id="username" name="username" type="text" />
     </form-field>

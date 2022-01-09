@@ -23,7 +23,7 @@ fun Application.configureSecurity() {
             passwordParamName = "password"
             validate {
                 val user = userService.signIn(it.name, it.password)
-                UserPrincipal(user.id)
+                FormPrincipal(user.id)
             }
         }
 

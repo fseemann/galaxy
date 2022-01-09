@@ -5,6 +5,7 @@ import com.manic.galaxy.infrastructure.ktor.plugins.*
 import com.manic.galaxy.infrastructure.ktor.routing.configureRouting
 import com.manic.galaxy.infrastructure.ktor.security.configureSecurity
 import io.ktor.application.*
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.ktor.ext.inject
 
 @Suppress("unused")
@@ -19,6 +20,8 @@ fun Application.module() {
 
     val userService by inject<UserService>()
     kotlin.runCatching {
-        userService.createAdmin("admin@galaxy.com", "admin")
+        transaction {
+            userService.createAdmin("admin@galaxy.com", "admin")
+        }
     }
 }
