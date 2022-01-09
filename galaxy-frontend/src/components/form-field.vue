@@ -1,7 +1,7 @@
 <template>
 <div>
   <label :for="inputId">{{label}}</label>
-  <slot :id="inputId" :aria-describedby="descriptionId" />
+  <slot :id="inputId" v-bind="{ 'aria-describedby': descriptionId}"/>
   <span :id="descriptionId">{{description}}</span>
 </div>
 </template>
