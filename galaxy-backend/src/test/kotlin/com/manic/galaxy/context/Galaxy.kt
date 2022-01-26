@@ -1,10 +1,9 @@
 package com.manic.galaxy.context
 
-import com.manic.galaxy.application.FacilityService
 import com.manic.galaxy.application.GalaxyService
 import com.manic.galaxy.application.PlanetService
-import com.manic.galaxy.domain.facility.Facility
-import org.jetbrains.exposed.sql.transactions.transaction
+import com.manic.galaxy.domain.planet.Facility
+import kotlinx.coroutines.runBlocking
 import org.koin.core.component.inject
 import java.util.*
 import kotlin.reflect.KClass
@@ -14,7 +13,7 @@ open class Galaxy : Admin() {
     val galaxy = run {
         val galaxyService by inject<GalaxyService>()
 
-        transaction {
+        runBlocking {
             galaxyService.createGalaxy(admin.id, "Cepheus", 10)
         }
     }
@@ -22,7 +21,7 @@ open class Galaxy : Admin() {
     fun `when a user joins the galaxy`(userId: UUID) {
         val galaxyService by inject<GalaxyService>()
 
-        transaction {
+        runBlocking {
             galaxyService.joinGalaxy(userId, galaxy.id)
         }
     }
@@ -31,12 +30,11 @@ open class Galaxy : Admin() {
         userId: UUID,
         facilityTypes: List<KClass<out Facility>>,
     ) {
-        val facilityService by inject<FacilityService>()
         val planetService by inject<PlanetService>()
 
-        val facilities = transaction {
+        val facilities = runBlocking {
             val planet = planetService.listPlanets(userId, galaxy.id).first()
-            facilityService.listFacilities(planet.id)
+            planet.facilities
         }
 
         assertEquals(facilityTypes.sortedBy { it.simpleName }, facilities.map { it::class }.sortedBy { it.simpleName })

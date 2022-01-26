@@ -4,10 +4,10 @@ import com.manic.galaxy.domain.shared.EntityRepository
 import java.util.*
 
 interface PlanetRepository : EntityRepository<Planet> {
-    fun insert(planets: List<Planet>)
-    fun getUnowned(galaxyId: UUID): Planet
-    fun requireNotOwner(userId: UUID)
-    fun list(
+    suspend fun insert(planets: List<Planet>)
+    suspend fun getUnowned(galaxyId: UUID): Planet
+    suspend fun requireNotOwner(userId: UUID)
+    suspend fun list(
         galaxyId: UUID,
         userId: UUID,
     ): List<Planet>

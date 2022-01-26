@@ -1,4 +1,4 @@
-package com.manic.galaxy.domain.facility
+package com.manic.galaxy.domain.planet
 
 import com.manic.galaxy.domain.shared.GalaxyTime
 import java.time.Duration
@@ -12,7 +12,7 @@ class Storage(
     var minerals: Int,
     var mineralsCapacity: Int,
     var lastUpdatedAt: Instant,
-) : Facility {
+) : Facility() {
 
     fun update(mine: Mine?) {
         val updatedAt = GalaxyTime.now()

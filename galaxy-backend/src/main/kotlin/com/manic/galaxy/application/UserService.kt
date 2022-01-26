@@ -13,7 +13,7 @@ class UserService(
     /**
      * @return a admin user
      */
-    fun createAdmin(
+    suspend fun createAdmin(
         email: String,
         password: String,
     ): User {
@@ -23,7 +23,7 @@ class UserService(
         return userRepository.insert(user)
     }
 
-    fun signIn(
+    suspend fun signIn(
         email: String,
         password: String,
     ): User {

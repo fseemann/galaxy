@@ -1,8 +1,9 @@
 package com.manic.galaxy.context
 
-import com.manic.galaxy.application.FacilityService
 import com.manic.galaxy.application.GalaxyService
-import org.jetbrains.exposed.sql.transactions.transaction
+import com.manic.galaxy.application.PlanetService
+import com.manic.galaxy.domain.planet.Storage
+import kotlinx.coroutines.runBlocking
 import org.koin.core.component.inject
 import java.util.*
 import kotlin.test.assertEquals
@@ -11,27 +12,27 @@ class TestGalaxy : Galaxy() {
     val planetOwnedByAdmin = run {
         val galaxyService by inject<GalaxyService>()
 
-        transaction {
+        runBlocking {
             galaxyService.joinGalaxy(admin.id, galaxy.id)
         }
     }
 
-    fun `when the storage of planet is updated`(planetId: UUID) {
-        val facilityService: FacilityService by inject()
+    fun `when the planet's storage is updated`(planetId: UUID) {
+        val planetService: PlanetService by inject()
 
-        transaction {
-            facilityService.updateStorage(planetId)
+        runBlocking {
+            planetService.updateStorage(planetId)
         }
     }
 
-    fun `then the storage of planet should have n minerals`(
+    fun `then the planet should have n minerals stored`(
         planetId: UUID,
         n: Int,
     ) {
-        val facilityService: FacilityService by inject()
+        val planetService: PlanetService by inject()
 
-        val storage = transaction {
-            facilityService.getStorage(planetId)
+        val storage = runBlocking {
+            planetService.get(planetId).facilities.first { it is Storage } as Storage
         }
 
         assertEquals(n, storage.minerals)

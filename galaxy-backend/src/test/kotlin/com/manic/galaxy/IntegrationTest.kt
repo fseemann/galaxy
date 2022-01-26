@@ -1,11 +1,13 @@
 package com.manic.galaxy
 
 import com.manic.galaxy.domain.shared.GalaxyTime
-import com.manic.galaxy.infrastructure.exposed.DatabaseFactory
 import com.manic.galaxy.infrastructure.koin.ModuleFactory
-import com.manic.galaxy.infrastructure.postgres.FacilitiesTable
-import org.jetbrains.exposed.sql.deleteAll
-import org.jetbrains.exposed.sql.transactions.transaction
+import com.manic.galaxy.infrastructure.mongodb.DatabaseFactory
+import com.manic.galaxy.infrastructure.mongodb.toMultiple
+import com.manic.galaxy.infrastructure.mongodb.toSingle
+import com.mongodb.client.model.Filters
+import com.mongodb.reactivestreams.client.MongoDatabase
+import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.koin.core.component.KoinComponent
 import org.koin.core.context.startKoin
@@ -17,9 +19,9 @@ import org.testcontainers.utility.DockerImageName
 abstract class IntegrationTest : KoinComponent {
 
     @Before
-    fun cleanDatabase() {
-        transaction {
-            DatabaseFactory.tables.filterNot { it is FacilitiesTable }.forEach { it.deleteAll() }
+    fun cleanDatabase() = runBlocking<Unit> {
+        mongoDatabase.listCollectionNames().toMultiple().forEach {
+            mongoDatabase.getCollection(it).deleteMany(Filters.exists("_id")).toSingle()
         }
     }
 
@@ -30,30 +32,29 @@ abstract class IntegrationTest : KoinComponent {
 
     companion object {
         private val initialized: Boolean
+        private val mongoDatabase: MongoDatabase
 
         init {
             checkInitialized()
             initialized = true
 
-            val postgres = GenericContainer(DockerImageName.parse("postgres:14.1"))
-                .withEnv("POSTGRES_PASSWORD", "postgres")
-                .withEnv("POSTGRES_DB", "galaxy")
-                .withExposedPorts(5432)
-            postgres.start()
+            val mongo = GenericContainer(DockerImageName.parse("mongo:5"))
+                .withEnv("MONGO_INITDB_ROOT_USERNAME", "root")
+                .withEnv("MONGO_INITDB_ROOT_PASSWORD", "root")
+                .withExposedPorts(27017)
+            mongo.start()
             Runtime.getRuntime().addShutdownHook(Thread {
                 val logger = LoggerFactory.getLogger("Shutdown")
-                logger.info("Stopping postgres.")
-                postgres.stop()
+                logger.info("Stopping mongodb.")
+                mongo.stop()
             })
 
-            val host = postgres.host
-            val port = postgres.firstMappedPort
-            DatabaseFactory.new(host, port, "postgres", "postgres", "galaxy")
+            mongoDatabase = DatabaseFactory.new("mongodb://root:root@${mongo.host}:${mongo.firstMappedPort}/galaxy")
 
             startKoin {
                 // Koin is not compatible with kotlin 1.6.10, it logs time in info mode which causes an error
                 printLogger(Level.ERROR)
-                modules(ModuleFactory.new())
+                modules(ModuleFactory.new(mongoDatabase))
             }
         }
 

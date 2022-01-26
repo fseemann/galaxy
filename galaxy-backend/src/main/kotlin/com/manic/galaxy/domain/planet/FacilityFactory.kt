@@ -1,4 +1,4 @@
-package com.manic.galaxy.domain.facility
+package com.manic.galaxy.domain.planet
 
 import com.manic.galaxy.domain.shared.GalaxyTime
 import java.util.*

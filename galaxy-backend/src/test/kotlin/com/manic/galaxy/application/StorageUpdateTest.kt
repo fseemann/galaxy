@@ -12,8 +12,8 @@ class StorageUpdateTest : IntegrationTest() {
     fun `updating storage should increase minerals depending on minutes passed`() {
         given(::TestGalaxy) {
             `when time passes`(Duration.ofMinutes(10))
-            `when the storage of planet is updated`(planetOwnedByAdmin.id)
-            `then the storage of planet should have n minerals`(planetOwnedByAdmin.id, 10)
+            `when the planet's storage is updated`(planetOwnedByAdmin.id)
+            `then the planet should have n minerals stored`(planetOwnedByAdmin.id, 10)
         }
     }
 }

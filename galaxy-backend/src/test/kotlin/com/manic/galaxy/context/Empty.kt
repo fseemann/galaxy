@@ -2,7 +2,7 @@ package com.manic.galaxy.context
 
 import com.manic.galaxy.application.UserService
 import com.manic.galaxy.domain.shared.GalaxyTime
-import org.jetbrains.exposed.sql.transactions.transaction
+import kotlinx.coroutines.runBlocking
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.time.Duration
@@ -14,7 +14,7 @@ open class Empty() : KoinComponent {
     ) {
         val userService by inject<UserService>()
 
-        transaction {
+        runBlocking {
             userService.createAdmin(email, password)
         }
     }
@@ -25,7 +25,7 @@ open class Empty() : KoinComponent {
     ) {
         val userService by inject<UserService>()
 
-        transaction {
+        runBlocking {
             userService.signIn(email, password)
         }
     }

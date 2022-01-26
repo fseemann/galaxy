@@ -13,7 +13,7 @@ object PlanetFactory {
         Invariants.require(planetCount > 0) { "galaxy.planetCountLessThanOrEqualToZero" }
 
         return (0..planetCount).map {
-            Planet(UUID.randomUUID(), galaxy.id, null, "Planet")
+            Planet(UUID.randomUUID(), galaxy.id, null, "Planet", emptyList())
         }
     }
 }

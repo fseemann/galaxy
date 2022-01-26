@@ -24,7 +24,6 @@ fun Application.configureRouting() {
     routing {
         userRoutes()
         galaxyRoutes()
-        planetRoutes()
     }
 }
 

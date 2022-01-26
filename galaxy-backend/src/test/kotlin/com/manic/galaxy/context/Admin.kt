@@ -3,21 +3,19 @@ package com.manic.galaxy.context
 import com.manic.galaxy.application.GalaxyService
 import com.manic.galaxy.application.UserService
 import com.manic.galaxy.domain.user.User
-import org.jetbrains.exposed.sql.transactions.transaction
+import kotlinx.coroutines.runBlocking
 import org.koin.core.component.inject
 
 open class Admin() : Empty() {
-    val admin: User = run {
+    val admin: User = runBlocking {
         val userService by inject<UserService>()
-        transaction {
-            userService.createAdmin("admin@galaxy.com", "admin")
-        }
+        userService.createAdmin("admin@galaxy.com", "admin")
     }
 
     fun `when the admin creates a galaxy`() {
         val galaxyService by inject<GalaxyService>()
 
-        transaction {
+        runBlocking {
             galaxyService.createGalaxy(admin.id, "Cepheus", 10)
         }
     }

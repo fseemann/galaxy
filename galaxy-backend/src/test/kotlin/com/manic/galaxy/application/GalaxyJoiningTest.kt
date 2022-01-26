@@ -2,8 +2,8 @@ package com.manic.galaxy.application
 
 import com.manic.galaxy.IntegrationTest
 import com.manic.galaxy.context.Galaxy
-import com.manic.galaxy.domain.facility.Mine
-import com.manic.galaxy.domain.facility.Storage
+import com.manic.galaxy.domain.planet.Mine
+import com.manic.galaxy.domain.planet.Storage
 import com.manic.galaxy.domain.shared.BusinessException
 import com.manic.galaxy.given
 import org.junit.Test
