@@ -1,16 +1,9 @@
 import {defineStore} from "pinia";
 
-export default defineStore('users', {
+export default defineStore('auth', {
     state: () => ({
-        authenticatedId: null,
-        entitiesById: {},
-        idsByParams: {}
+        user: null,
     }),
-    getters: {
-        getSelf(state) {
-            return state.entitiesById[state.authenticatedId]
-        }
-    },
     actions: {
         async login(payload) {
             const response = await fetch('/api/users/login', {
@@ -18,9 +11,7 @@ export default defineStore('users', {
                 body: new URLSearchParams([['username', payload.username], ['password', payload.password]])
             })
             const user = response.json()
-
-            this.authenticatedId = user.id
-            Object.assign(this.entitiesById, {[user.id]: user})
+            this.user = user
             return user
         },
         async logout() {

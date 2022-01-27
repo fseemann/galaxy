@@ -10,14 +10,14 @@
     </form-field>
     <button>Submit</button>
   </form>
-  <button type="button" @click="users.logout">Logout</button>
+  <button type="button" @click="logout">Logout</button>
 </div>
 </template>
 
 <script setup>
 import FormField from './form-field.vue'
 import BaseInput from './base-input.vue'
-import useUsers from "../stores/users";
+import useAuth from "../stores/use-auth";
 import {reactive} from "vue";
 
 const formData = reactive({
@@ -25,8 +25,11 @@ const formData = reactive({
   password: ''
 })
 
-const users = useUsers()
+const auth = useAuth()
 const login = () => {
-  users.login(formData)
+  auth.login(formData)
+}
+const logout = () => {
+  auth.logout()
 }
 </script>
