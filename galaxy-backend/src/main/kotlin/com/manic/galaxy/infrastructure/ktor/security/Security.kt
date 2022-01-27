@@ -3,6 +3,8 @@ package com.manic.galaxy.infrastructure.ktor.security
 import com.manic.galaxy.application.UserService
 import io.ktor.application.*
 import io.ktor.auth.*
+import io.ktor.http.*
+import io.ktor.response.*
 import io.ktor.sessions.*
 import org.koin.ktor.ext.inject
 import kotlin.collections.set
@@ -30,6 +32,9 @@ fun Application.configureSecurity() {
         session<UserSession> {
             validate {
                 UserPrincipal(it.userId)
+            }
+            challenge {
+                call.respond(HttpStatusCode.Forbidden)
             }
         }
     }
