@@ -1,8 +1,5 @@
-<script setup>
-import FormLogin from './components/form-login.vue'</script>
-
 <template>
-  <form-login />
+  <router-view />
 </template>
 
 <style>

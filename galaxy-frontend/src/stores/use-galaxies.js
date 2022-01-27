@@ -11,7 +11,7 @@ export default defineStore('galaxies', {
     actions: {
         async fetchGalaxies(params) {
             const response = await fetch('/api/galaxies')
-            const galaxies = await response.json()
+            const galaxies = [{id: 1, name: 'test'}]
 
             galaxies.reduce((acc, it) => {
                 acc[it.id] = it
