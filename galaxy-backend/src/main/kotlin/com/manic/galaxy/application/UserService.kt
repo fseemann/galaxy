@@ -4,6 +4,7 @@ import com.manic.galaxy.domain.user.PasswordEncrypter
 import com.manic.galaxy.domain.user.User
 import com.manic.galaxy.domain.user.UserFactory
 import com.manic.galaxy.domain.user.UserRepository
+import java.util.*
 
 class UserService(
     private val userRepository: UserRepository,
@@ -30,5 +31,9 @@ class UserService(
         val user = userRepository.getByEmail(email)
         passwordEncrypter.validate(password, user.password)
         return user
+    }
+
+    suspend fun getUser(userId: UUID): User {
+        return userRepository.get(userId)
     }
 }
